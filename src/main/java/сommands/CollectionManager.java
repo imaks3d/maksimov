@@ -23,6 +23,17 @@ public class CollectionManager {
         return new HashSet<>(studyGroups);
    }
     /**
+     * Create ArrayList with copies of elements from HashSet, sorted by ID.
+     *
+     * @return sorted ArrayList
+     */
+    public List<StudyGroup> getSortedCollection() {
+        List<StudyGroup> sortedList = studyGroups.stream()
+                .sorted(Comparator.comparingLong(StudyGroup::getId))
+                .collect(Collectors.toList());
+        return new ArrayList<>(sortedList);
+    }
+    /**
      * @return collection creation date
      */
     public LocalDate getCreationDate() {
