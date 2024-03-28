@@ -62,7 +62,7 @@ public class CommandManager {
      * prints all elements of collection
      */
     public void show() {
-        for (StudyGroup studyGroup : this.collectionManager.getCollection()) {
+        for (StudyGroup studyGroup : this.collectionManager.getSortedCollection()) {
             System.out.println(studyGroup);
         }
     }
@@ -121,7 +121,7 @@ public class CommandManager {
      * save collection to file
      */
     public void save() {
-        fileManager.saveToFile(collectionManager.getCollection());
+        fileManager.saveToFile(collectionManager.getSortedCollection());
     }
     public void executeScript(String scriptName) throws FileNotFoundException {
         File file = new File(scriptName);
