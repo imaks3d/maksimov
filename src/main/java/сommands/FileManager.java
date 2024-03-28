@@ -80,14 +80,17 @@ public class FileManager {
      * save collection to json file
      * @param set collection to save
      */
-    public void saveToFile(Set<StudyGroup> set) {
-        Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, (JsonSerializer<LocalDate>) (date, type, jsonSerializationContext) -> {
-            if (date != null) {
-                return new JsonPrimitive(date.format(DateTimeFormatter.ISO_LOCAL_DATE));
-            } else {
-                return JsonNull.INSTANCE;
-            }
-        }).setPrettyPrinting().create();
+    public void saveToFile(List<StudyGroup> set) {
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(LocalDate.class, (JsonSerializer<LocalDate>) (date, type, jsonSerializationContext) -> {
+                        if (date != null) {
+                            return new JsonPrimitive(date.format(DateTimeFormatter.ISO_LOCAL_DATE));
+                        } else {
+                            return JsonNull.INSTANCE;
+                        }
+                    })
+                    .setPrettyPrinting()
+                    .create();
 
         try (BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file))) {
             String toPrint = gson.toJson(set);
