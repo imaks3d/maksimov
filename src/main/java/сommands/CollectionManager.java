@@ -4,7 +4,6 @@ import data.StudyGroup;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Class that manage collection
@@ -23,17 +22,6 @@ public class CollectionManager {
     public Set<StudyGroup> getCollection() {
         return new HashSet<>(studyGroups);
    }
-    /**
-     * Создает ArrayList с копиями элементов из HashSet, отсортированными по ID.
-     *
-     * @return отсортированный ArrayList
-     */
-    public List<StudyGroup> getSortedCollection() {
-        List<StudyGroup> sortedList = studyGroups.stream()
-                .sorted(Comparator.comparingLong(StudyGroup::getId))
-                .collect(Collectors.toList());
-        return new ArrayList<>(sortedList);
-    }
     /**
      * @return collection creation date
      */
