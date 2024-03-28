@@ -4,6 +4,7 @@ import data.StudyGroup;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Class that manage collection
@@ -16,12 +17,17 @@ public class CollectionManager {
         this.studyGroups = new HashSet<>(studyGroups);
         creationDate = LocalDate.now();
     }
-    /**
-     * @return current collection
-     */
+
     public Set<StudyGroup> getCollection() {
         return new HashSet<>(studyGroups);
-   }
+    }
+
+    public List<StudyGroup> getSortedCollection() {
+        List<StudyGroup> sortedList = studyGroups.stream()
+                .sorted(Comparator.comparingLong(StudyGroup::getId))
+                .collect(Collectors.toList());
+        return new ArrayList<>(sortedList);
+    }
     /**
      * @return collection creation date
      */
