@@ -121,7 +121,7 @@ public class CommandManager {
      * save collection to file
      */
     public void save() {
-        fileManager.saveToFile(collectionManager.getCollection());
+        fileManager.saveToFile(collectionManager.getSortedCollection());
     }
     public void executeScript(String scriptName) throws FileNotFoundException {
         File file = new File(scriptName);
