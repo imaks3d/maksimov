@@ -1,37 +1,56 @@
 package data;
+import com.google.gson.annotations.Expose;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * Main class that stored in collection
  */
 
 public class StudyGroup {
-private static Integer nextId = 1;
+//private static Integer setId = 0;
+private static final AtomicInteger nextId = new AtomicInteger(0);
+//    @NotNull
+//    @Min(1)
+//    @Expose(serialize = false)
+//    private final Integer id;
     @NotNull
     @Min(1)
-    private Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
+    @Expose(serialize = false)
+    private Integer id;//Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     @NotNull
+    @Expose
     private String name; //Поле не может быть null, Строка не может быть пустой
     @NotNull
+    @Expose
     private Coordinates coordinates; //Поле не может быть null
     @NotNull
+    @Expose
     private Location location;
     @NotNull
-    private LocalDate creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
+    @Expose
+    private final LocalDateTime creationDateTime; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
     @NotNull
+    @Expose
     private int studentsCount; //Значение поля должно быть больше 0
     @NotNull
+    @Expose
     private int shouldBeExpelled; //Значение поля должно быть больше 0
     @NotNull
+    @Expose
     private long transferredStudents; //Значение поля должно быть больше 0
     @NotNull
+    @Expose
     private FormOfEducation formOfEducation; //Поле не может быть null
     @NotNull
+    @Expose
     private Person groupAdmin;
     public StudyGroup(String name, Coordinates coordinates, int studentsCount, int shouldBeExpelled, long transferredStudents, FormOfEducation formOfEducation, Person person) {
-        id = nextId++;
-        creationDate = LocalDate.now();
+//        Id = ++setId;
+        this.id = nextId.incrementAndGet();
+        creationDateTime = LocalDateTime.now();
         this.studentsCount = studentsCount;
         this.shouldBeExpelled = shouldBeExpelled;
         this.transferredStudents = transferredStudents;
@@ -40,21 +59,28 @@ private static Integer nextId = 1;
         this.groupAdmin = person;
         this.formOfEducation = formOfEducation;
     }
-   public static void setNextId(Integer id) {
-      nextId = id;
-   }
+//   public static void setNextId(Integer id) {
+//      setId = id;
+//   }
+public void setId(int id) {
+    this.id = id;
+}
+
+
     /**
      * @return id of StudyGroup
      */
     public Integer getId() {
         return id;
     }
-
     /**
      * @return name of StudyGroup
      */
     public String getName() {
         return name;
+    }
+    public int getStudentsCount() {
+        return studentsCount;
     }
     /**
      * @return coordinates of StudyGroup
@@ -65,8 +91,8 @@ private static Integer nextId = 1;
     /**
      * @return creation date of StudyGroup
      */
-    public LocalDate getCreationDate() {
-        return creationDate;
+    public LocalDateTime getCreationDateTime() {
+        return creationDateTime;
     }
     /**
      * replace current studyGroup by new information
@@ -87,7 +113,7 @@ private static Integer nextId = 1;
      */
     @Override
     public String toString() {
-        return "Id = " + id + ", name = " + name + ", coordinates = " + coordinates + ", creation date = " + getCreationDate().toString() + ", count of students = " + studentsCount + ", should be expelled = " + shouldBeExpelled + ", transferred students = " + transferredStudents + ", form of education = " + formOfEducation.getDescription() +  ", GroupAdmin = " + groupAdmin;
+        return "Id = " + id + ", name = " + name + ", coordinates = " + coordinates + ", creation date = " + getCreationDateTime().toString() + ", count of students = " + studentsCount + ", should be expelled = " + shouldBeExpelled + ", transferred students = " + transferredStudents + ", form of education = " + formOfEducation.getDescription() +  ", GroupAdmin = " + groupAdmin;
     }
 }
 

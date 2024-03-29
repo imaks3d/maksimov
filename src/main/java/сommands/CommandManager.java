@@ -56,7 +56,7 @@ public class CommandManager {
     public void info() {
         System.out.println("Тип коллекции - " + collectionManager.getCollectionName());
         System.out.println("Количество элементов - " + collectionManager.getSize());
-        System.out.println("Дата инициализации - " + collectionManager.getCreationDate());
+        System.out.println("Время инициализации - " + collectionManager.getCreationDateTime());
     }
     /**
      * prints all elements of collection

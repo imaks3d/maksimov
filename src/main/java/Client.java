@@ -1,4 +1,3 @@
-import data.StudyGroup;
 import сommands.CollectionManager;
 import сommands.CommandManager;
 import сommands.Console;

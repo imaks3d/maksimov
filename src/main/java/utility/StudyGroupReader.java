@@ -52,10 +52,8 @@ public class StudyGroupReader {
             Double locationY = Double.parseDouble(scanner.nextLine());
             double locationZ = Double.parseDouble(scanner.nextLine());
             String locationName = scanner.nextLine();
-
-
             StudyGroup studyGroup = new StudyGroup(studyGroupName, new Coordinates(coordinatesX, coordinatesY), countStudents, shouldBeExpelled, transferredStudents, formOfEducation, new Person(personName, personHeight, personWeight, personPassportID, new Location(locationX, locationY, locationZ, locationName)));
-            StudyGroupValidator.validateStudyGroup(studyGroup);
+//            StudyGroupValidator.validateStudyGroup(studyGroup);
             return studyGroup;
         } catch (Exception e) {
             throw new ReadElementFromScriptException("Ошибка при чтении элемента из скрипта. Проверьте правильность данных", e);
@@ -201,7 +199,11 @@ public class StudyGroupReader {
         System.out.print("Введите координату Z: ");
         double z = readDouble();
         System.out.print("Введите название локации: ");
-        String locationName = readString();
+        String locationName = readStringOrNull(); // Метод для чтения String с возможностью ввода null
+        while (locationName == null) {
+            System.out.print("Название локации не может быть равно null, пожалуйста, повторите ввод: ");
+            locationName = readStringOrNull();
+        }
         location = new Location(x, y, z, locationName);
         return new Person(name, height, weight, passportID, location);
     }

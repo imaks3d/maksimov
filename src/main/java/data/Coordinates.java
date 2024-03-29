@@ -1,12 +1,15 @@
 package data;
 
+import com.google.gson.annotations.Expose;
 import jakarta.validation.constraints.Min;
 /**
  * Coordinates of StudyGroup represented by x, y coordinates
  */
 public class Coordinates {
     @Min(-300)
+    @Expose
     private int x;
+    @Expose
     private Double y;
 
     public Coordinates(int x, Double y) {

@@ -2,8 +2,9 @@ package сommands;
 
 import data.StudyGroup;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -11,28 +12,57 @@ import java.util.stream.Collectors;
  */
 public class CollectionManager {
     private final Set<StudyGroup> studyGroups;
-    private final LocalDate creationDate;
+    private final LocalDateTime creationDateTime;
+    private List<StudyGroup> sortedStudyGroups;
+    private static final AtomicInteger nextId = new AtomicInteger(0); // Объявление и инициализация переменной nextId
+
 
     public CollectionManager(List<StudyGroup> studyGroups) {
         this.studyGroups = new HashSet<>(studyGroups);
-        creationDate = LocalDate.now();
+        assignIds();
+        updateNextId();
+        this.sortedStudyGroups = getSortedCollection();
+        creationDateTime = LocalDateTime.now();
     }
 
     public Set<StudyGroup> getCollection() {
         return new HashSet<>(studyGroups);
     }
 
-    public List<StudyGroup> getSortedCollection() {
-        List<StudyGroup> sortedList = studyGroups.stream()
-                .sorted(Comparator.comparingLong(StudyGroup::getId))
-                .collect(Collectors.toList());
-        return new ArrayList<>(sortedList);
+//    public List<StudyGroup> getSortedCollection() {
+//        List<StudyGroup> sortedList = studyGroups.stream()
+//                .sorted(Comparator.comparing(StudyGroup::getCreationDateTime))
+//                .collect(Collectors.toList());
+//        return new ArrayList<>(sortedList);
+//    }
+public List<StudyGroup> getSortedCollection() {
+    List<StudyGroup> sortedList = studyGroups.stream()
+            .sorted(Comparator.comparing(StudyGroup::getCreationDateTime))
+            .collect(Collectors.toList());
+    // Нумерация элементов в порядке их даты создания
+    for (int i = 0; i < sortedList.size(); i++) {
+        sortedList.get(i).setId(i + 1);
+    }
+    return new ArrayList<>(sortedList);
+}
+    private void assignIds() {
+        List<StudyGroup> sortedList = getSortedCollection();
+        for (int i = 0; i < sortedList.size(); i++) {
+            sortedList.get(i).setId(i + 1);
+        }
+    }
+    private void updateNextId() {
+        int maxId = studyGroups.stream()
+                .mapToInt(StudyGroup::getId)
+                .max()
+                .orElse(0); // Если коллекция пуста, устанавливаем значение по умолчанию 0
+        nextId.set(maxId + 1); // Устанавливаем следующий id
     }
     /**
      * @return collection creation date
      */
-    public LocalDate getCreationDate() {
-        return creationDate;
+    public LocalDateTime getCreationDateTime() {
+        return creationDateTime;
     }
     /**
      * @return collection name
@@ -50,9 +80,14 @@ public class CollectionManager {
      * @param studyGroup new StudyGroup to add to collection
      * @return true if element successfully added to collection, else return false
      */
+//    public boolean add(StudyGroup studyGroup) {
+//       return studyGroups.add(studyGroup);
+//   }
     public boolean add(StudyGroup studyGroup) {
-       return studyGroups.add(studyGroup);
-   }
+        boolean added = studyGroups.add(studyGroup);
+        sortedStudyGroups = getSortedCollection(); // Обновление порядка нумерации
+        return added;
+    }
 
     /**
      * @return true if collection contains StudyGroup with id, else return false
@@ -93,7 +128,7 @@ public class CollectionManager {
      * @return true if the element is added, return false otherwise
      */
     public boolean addIfMax(StudyGroup studyGroup) {
-        if (studyGroups.isEmpty() || studyGroup.getName().compareTo(studyGroups.stream().max(Comparator.comparing(StudyGroup::getName)).orElse(studyGroup).getName()) > 0) {
+        if (studyGroups.isEmpty() || studyGroup.getStudentsCount() > studyGroups.stream().mapToInt(StudyGroup::getStudentsCount).max().orElse(studyGroup.getStudentsCount())) {
             return studyGroups.add(studyGroup);
         }
         return false;
@@ -102,14 +137,15 @@ public class CollectionManager {
      * remove all studyGroups in collection which distance greater than distance of given studyGroup
      */
     public void removeGreater(StudyGroup studyGroup) {
-        studyGroups.removeIf(setStudyGroup -> setStudyGroup.getName().compareTo(studyGroup.getName()) > 0);
+        studyGroups.removeIf(setStudyGroup -> setStudyGroup.getStudentsCount() > studyGroup.getStudentsCount());
     }
     /**
      * remove all studyGroups in collection which distance lower than distance of given studyGroup
      */
     public void removeLower(StudyGroup studyGroup) {
-        studyGroups.removeIf(setStudyGroup -> (setStudyGroup.getName().compareTo(studyGroup.getName()) < 0));
+        studyGroups.removeIf(setStudyGroup -> setStudyGroup.getStudentsCount() < studyGroup.getStudentsCount());
     }
+
     /**
      * @return studyGroup from collection with minimum coordinates
      */

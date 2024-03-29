@@ -6,7 +6,7 @@ import exceptions.FileReadPermissionException;
 import exceptions.StudyGroupValidateException;
 
 import java.io.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
@@ -52,9 +52,9 @@ public class FileManager {
             inputArray.append(string);
         }
 
-        Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, (JsonDeserializer<LocalDate>) (json, type, jsonPrimitive) -> {
+        Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, (JsonDeserializer<LocalDateTime>) (json, type, jsonPrimitive) -> {
             try {
-                return LocalDate.parse(json.getAsJsonPrimitive().getAsString());
+                return LocalDateTime.parse(json.getAsJsonPrimitive().getAsString());
             } catch (DateTimeParseException e) {
                 // Логирование ошибки парсинга даты
                 System.err.println("Ошибка парсинга даты: " + e.getMessage());
@@ -81,10 +81,11 @@ public class FileManager {
      * @param set collection to save
      */
         public void saveToFile(List<StudyGroup> set) {
-            Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(LocalDate.class, (JsonSerializer<LocalDate>) (date, type, jsonSerializationContext) -> {
+            Gson gson = new GsonBuilder().
+                    excludeFieldsWithoutExposeAnnotation()
+                    .registerTypeAdapter(LocalDateTime.class, (JsonSerializer<LocalDateTime>) (date, type, jsonSerializationContext) -> {
                         if (date != null) {
-                            return new JsonPrimitive(date.format(DateTimeFormatter.ISO_LOCAL_DATE));
+                            return new JsonPrimitive(date.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
                         } else {
                             return JsonNull.INSTANCE;
                         }

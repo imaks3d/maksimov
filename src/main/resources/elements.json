@@ -1,1 +1,49 @@
- []
+[{
+  "name": "1",
+  "coordinates": {
+    "x": 1,
+    "y": 1.0
+  },
+  "creationDateTime": "2024-03-29T23:34:55.1314742",
+  "studentsCount": 1,
+  "shouldBeExpelled": 1,
+  "transferredStudents": 1,
+  "formOfEducation": "FULL_TIME_EDUCATION",
+  "groupAdmin": {
+    "name": "1",
+    "height": 1,
+    "weight": 1.0,
+    "passportID": "11111",
+    "location": {
+      "x": 1,
+      "y": 1.0,
+      "z": 1.0,
+      "name": "1"
+    }
+  }
+},
+  {
+    "name": "2",
+    "coordinates": {
+      "x": 2,
+      "y": 2.0
+    },
+    "creationDateTime": "2024-03-29T23:35:10.1178484",
+    "studentsCount": 2,
+    "shouldBeExpelled": 2,
+    "transferredStudents": 2,
+    "formOfEducation": "FULL_TIME_EDUCATION",
+    "groupAdmin": {
+      "name": "2",
+      "height": 2,
+      "weight": 2.0,
+      "passportID": "222222",
+      "location": {
+        "x": 2,
+        "y": 2.0,
+        "z": 2.0,
+        "name": "2"
+      }
+    }
+  }
+]
