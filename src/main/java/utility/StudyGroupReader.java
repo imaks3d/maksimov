@@ -1,67 +1,58 @@
+
 package utility;
 
 import data.*;
 import exceptions.ReadElementFromScriptException;
 
+import java.util.Arrays;
 import java.util.Scanner;
 /**
  * Class that read new StudyGroup from console or from script
  */
 public class StudyGroupReader {
     private Scanner scanner;
+
     public StudyGroupReader(Scanner scanner) {
         this.scanner = scanner;
     }
+
     /**
      * @param scanner new scanner
      */
     public void setScanner(Scanner scanner) {
         this.scanner = scanner;
     }
+
     /**
      * @return return current scanner
      */
     public Scanner getScanner() {
         return scanner;
     }
+
     /**
      * @return new StudyGroup read from console
      */
     public StudyGroup readStudyGroupFromConsole() {
         return new StudyGroup(readName(), readCoordinates(), readCountStudents(), readShouldBeExpelled(), readTransferredStudents(), readFormOfEducation(), readPerson());
     }
+
+    /**
+     * @return new StudyGroup read from script
+     */
+    /**
+     * @return new StudyGroup read from script
+     */
     /**
      * @return new StudyGroup read from script
      */
     public StudyGroup readStudyGroupFromScript() {
-        try {
-            String studyGroupName = scanner.nextLine();
+        return new StudyGroup(readName(), readCoordinates(), readCountStudents(), readShouldBeExpelled(), readTransferredStudents(), readFormOfEducation(), readPerson());
 
-            int coordinatesX = Integer.parseInt(scanner.nextLine());
-            Double coordinatesY = Double.parseDouble(scanner.nextLine());
-            int countStudents = Integer.parseInt(scanner.nextLine());
-            int shouldBeExpelled = Integer.parseInt(scanner.nextLine());
-            long transferredStudents = Long.parseLong(scanner.nextLine());
-            String formOfEducationName = scanner.nextLine();
-            FormOfEducation formOfEducation = FormOfEducation.valueOf(formOfEducationName.toUpperCase());
-            String personName = scanner.nextLine();
-            Long personHeight = Long.parseLong(scanner.nextLine());
-            double personWeight = Double.parseDouble(scanner.nextLine());
-            String personPassportID = scanner.nextLine();
-            Long locationX = Long.parseLong(scanner.nextLine());
-            Double locationY = Double.parseDouble(scanner.nextLine());
-            double locationZ = Double.parseDouble(scanner.nextLine());
-            String locationName = scanner.nextLine();
-            StudyGroup studyGroup = new StudyGroup(studyGroupName, new Coordinates(coordinatesX, coordinatesY), countStudents, shouldBeExpelled, transferredStudents, formOfEducation, new Person(personName, personHeight, personWeight, personPassportID, new Location(locationX, locationY, locationZ, locationName)));
-//            StudyGroupValidator.validateStudyGroup(studyGroup);
-            return studyGroup;
-        } catch (Exception e) {
-            throw new ReadElementFromScriptException("Ошибка при чтении элемента из скрипта. Проверьте правильность данных", e);
-        }
     }
-    /**
-     * @return read name of StudyGroup from console
-     */
+            /**
+             * @return read name of StudyGroup from console
+             */
     public String readName() {
         System.out.print("Введите название учебной группы: ");
         String name = scanner.nextLine();
@@ -135,27 +126,27 @@ public class StudyGroupReader {
      */
     public FormOfEducation readFormOfEducation() {
         System.out.println("Выберите форму обучения:");
+        int index = 1;
         for (FormOfEducation value : FormOfEducation.values()) {
-            System.out.println(value.getDescription());
+            System.out.println(index + ". " + value.getDescription());
+            index++;
         }
-        String choice;
+
+        int choice;
         do {
-            System.out.print("Введите название выбранной формы обучения: ");
-            choice = scanner.nextLine().trim().toUpperCase(); // Приводим к верхнему регистру
-        } while (!isValidFormOfEducation(choice));
-
-        return FormOfEducation.valueOf(choice.replace(" ", "_")); // Приводим к формату перечисления
-    }
-
-    private boolean isValidFormOfEducation(String choice) {
-        for (FormOfEducation value : FormOfEducation.values()) {
-            if (value.name().equalsIgnoreCase(choice.replace(" ", "_"))) {
-                return true;
+            System.out.print("Введите номер выбранной формы обучения: ");
+            while (!scanner.hasNextInt()) {
+                System.out.println("Введите число!");
+                System.out.print("Введите номер выбранной формы обучения: ");
+                scanner.next();
             }
-        }
-        System.out.println("Неверное название формы обучения. Пожалуйста, повторите попытку.");
-        return false;
+            choice = scanner.nextInt();
+            scanner.nextLine(); // Очистка буфера
+        } while (choice < 1 || choice > FormOfEducation.values().length);
+
+        return FormOfEducation.values()[choice - 1];
     }
+
     /**
      * @return read Person of StudyGroup from console
      */
@@ -176,7 +167,7 @@ public class StudyGroupReader {
         }
         System.out.print("Введите рост: ");
         height = readLongOrNull();
-       while (height != null && height.longValue() <= minHeight) {
+        while (height != null && height.longValue() <= minHeight) {
             System.out.print("Рост должен быть больше нуля: ");
             height = readLong();}
         System.out.print("Введите вес: ");

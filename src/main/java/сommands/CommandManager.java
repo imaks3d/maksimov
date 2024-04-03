@@ -1,3 +1,4 @@
+
 package сommands;
 
 import data.StudyGroup;
@@ -138,7 +139,6 @@ public class CommandManager {
         scriptNames.add(scriptName);
         Scanner scannerToScript = new Scanner(file);
         Scanner consoleScanner = studyGroupReader.getScanner();
-        studyGroupReader.setScanner(scannerToScript);
         System.out.printf("Исполнение скрипта \"%s\"%n", scriptName);
         System.out.println("Исполнение скрипта \"" + scriptName + "\"");
         while (scannerToScript.hasNext()) {
