@@ -26,6 +26,7 @@ public class Location {
         this.name = name;
     }
     /**
+     * return x y z coordinates of Location
      * @return x y z coordinates of Location
      */
         @Override

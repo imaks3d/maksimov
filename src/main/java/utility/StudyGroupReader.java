@@ -17,6 +17,7 @@ public class StudyGroupReader {
     }
 
     /**
+     * set Scanner object for data input
      * @param scanner new scanner
      */
     public void setScanner(Scanner scanner) {
@@ -24,6 +25,7 @@ public class StudyGroupReader {
     }
 
     /**
+     * Return the value of the scanner variable that was previously set
      * @return return current scanner
      */
     public Scanner getScanner() {
@@ -31,6 +33,7 @@ public class StudyGroupReader {
     }
 
     /**
+     * create a new StudyGroup object using console input
      * @return new StudyGroup read from console
      */
     public StudyGroup readStudyGroupFromConsole() {
@@ -38,19 +41,16 @@ public class StudyGroupReader {
     }
 
     /**
+     * return new StudyGroup read from script
      * @return new StudyGroup read from script
      */
-    /**
-     * @return new StudyGroup read from script
-     */
-    /**
-     * @return new StudyGroup read from script
-     */
+
     public StudyGroup readStudyGroupFromScript() {
         return new StudyGroup(readName(), readCoordinates(), readCountStudents(), readShouldBeExpelled(), readTransferredStudents(), readFormOfEducation(), readPerson());
 
     }
             /**
+             * return read name of StudyGroup from console
              * @return read name of StudyGroup from console
              */
     public String readName() {
@@ -63,6 +63,7 @@ public class StudyGroupReader {
         return name;
     }
     /**
+     * return read Count Student of StudyGroup from console
      * @return read Count Student of StudyGroup from console
      */
     public int readCountStudents() {
@@ -77,6 +78,7 @@ public class StudyGroupReader {
         return countStudents;
     }
     /**
+     * return read ShouldBeExpelled of StudyGroup from console
      * @return read ShouldBeExpelled of StudyGroup from console
      */
     public int readShouldBeExpelled() {
@@ -91,6 +93,7 @@ public class StudyGroupReader {
         return shouldBeExpelled;
     }
     /**
+     * return read TransferredStudents of StudyGroup from console
      * @return read TransferredStudents of StudyGroup from console
      */
     public long readTransferredStudents() {
@@ -105,6 +108,7 @@ public class StudyGroupReader {
         return transferredStudents;
     }
     /**
+     * return read Coordinates of StudyGroup from console
      * @return read Coordinates of StudyGroup from console
      */
     public Coordinates readCoordinates() {
@@ -122,6 +126,7 @@ public class StudyGroupReader {
         return new Coordinates(x, y);
     }
     /**
+     *return read FormOfEducation of StudyGroup from console
      * @return read FormOfEducation of StudyGroup from console
      */
     public FormOfEducation readFormOfEducation() {
@@ -148,6 +153,7 @@ public class StudyGroupReader {
     }
 
     /**
+     * return read Person of StudyGroup from console
      * @return read Person of StudyGroup from console
      */
 
@@ -199,6 +205,10 @@ public class StudyGroupReader {
         return new Person(name, height, weight, passportID, location);
     }
 
+    /**
+     *
+     * read a line from the console or other input source using the Scanner object
+     */
     private String readString() {
         String value;
         while (true) {
@@ -212,10 +222,19 @@ public class StudyGroupReader {
         return value;
     }
 
+    /**
+     * provide the ability to enter null if an empty string is entered
+     * @return null
+     */
     private String readStringOrNull() {
         String input = scanner.nextLine().trim();
         return input.isEmpty() ? null : input;
     }
+
+    /**
+     * read an integer from the console
+     * @return  the value of an integer
+     */
     private int readInt() {
         int value;
         while (true) {
@@ -228,6 +247,11 @@ public class StudyGroupReader {
         }
         return value;
     }
+
+    /**
+     * count long integers
+     * @return the value of a number of type long
+     */
     private long readLong() {
         Long value;
         while (true) {
@@ -240,6 +264,11 @@ public class StudyGroupReader {
         }
         return value;
     }
+
+    /**
+     * This method allows you to enter null if the entered string is empty
+     * @return null
+     */
     private Long readLongOrNull() {
         Long value;
         try {
@@ -250,6 +279,11 @@ public class StudyGroupReader {
             return null;
         }
     }
+
+    /**
+     * count a floating point number
+     * @return the value of a floating point number
+     */
     private double readDouble() {
         double value;
         while (true) {

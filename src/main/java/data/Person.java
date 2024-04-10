@@ -23,21 +23,46 @@ public Person(String name, Long height, double weight, String passportID, Locati
         this.passportID = passportID;
         this.location = location;
         }
+        /**
+         *return a string representing the name
+         *@return a string representing the name
+         */
         public String getName() {
                 return name;
         }
+        /**
+         *return a string representing the height
+         *@return a string representing the height
+         */
         public Long getHeight() {
                 return height;
         }
+        /**
+         *return a string representing the weight
+         *@return a string representing the weight
+         */
         public double getWeight() {
                 return weight;
         }
+        /**
+         *return a string representing the passport ID
+         * @return a string representing the passport ID
+         */
         public String getPassportID() {
         return passportID;
         }
+        /**
+         *return a string representing the Location
+         * @return a string representing the Location
+         */
         public Location getLocation() {
                 return location;
         }
+
+        /**
+         *represent an object as a string
+         * @return an object as a string
+         */
         @Override
         public String toString() {
                 String s = location.toString();

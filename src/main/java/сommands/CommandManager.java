@@ -238,6 +238,11 @@ public class CommandManager {
         }
         return false;
     }
+
+    /**
+     *command to Java style
+     * @return command to Java style
+     */
     private static String inputCommandToJavaStyle(String str) {
         StringBuilder result = new StringBuilder();
         boolean needUpperCase = false;

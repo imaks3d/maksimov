@@ -25,6 +25,11 @@ public class CollectionManager {
         creationDateTime = LocalDateTime.now();
     }
 
+    /**
+     *return a StudyGroup set containing all objects from the original collection
+     * @return a StudyGroup set containing all objects from the original collection
+     */
+
     public Set<StudyGroup> getCollection() {
         return new HashSet<>(studyGroups);
     }
@@ -35,7 +40,12 @@ public class CollectionManager {
 //                .collect(Collectors.toList());
 //        return new ArrayList<>(sortedList);
 //    }
-public List<StudyGroup> getSortedCollection() {
+
+    /**
+     *return a sorted list of StudyGroup objects by their creation date
+     * @return a sorted list of StudyGroup objects by their creation date
+     */
+    public List<StudyGroup> getSortedCollection() {
     List<StudyGroup> sortedList = studyGroups.stream()
             .sorted(Comparator.comparing(StudyGroup::getCreationDateTime))
             .collect(Collectors.toList());
@@ -45,12 +55,19 @@ public List<StudyGroup> getSortedCollection() {
     }
     return new ArrayList<>(sortedList);
 }
+/**
+    * assign IDs to a collection of StudyGroup objects based on their order in the sorted list.
+    */
     private void assignIds() {
         List<StudyGroup> sortedList = getSortedCollection();
         for (int i = 0; i < sortedList.size(); i++) {
             sortedList.get(i).setId(i + 1);
         }
     }
+
+    /**
+     * Update next available ID value for new StudyGroups
+     */
     private void updateNextId() {
         int maxId = studyGroups.stream()
                 .mapToInt(StudyGroup::getId)
@@ -59,24 +76,28 @@ public List<StudyGroup> getSortedCollection() {
         nextId.set(maxId + 1); // Устанавливаем следующий id
     }
     /**
+     * return collection creation date
      * @return collection creation date
      */
     public LocalDateTime getCreationDateTime() {
         return creationDateTime;
     }
     /**
+     * return collection name
      * @return collection name
      */
     public String getCollectionName() {
         return studyGroups.getClass().toString();
     }
     /**
+     * return size of collection
      * @return size of collection
      */
     public int getSize() {
         return studyGroups.size();
     }
     /**
+     * return true if element successfully added to collection, else return false
      * @param studyGroup new StudyGroup to add to collection
      * @return true if element successfully added to collection, else return false
      */
@@ -90,6 +111,7 @@ public List<StudyGroup> getSortedCollection() {
     }
 
     /**
+     * return true if collection contains StudyGroup with id, else return false
      * @return true if collection contains StudyGroup with id, else return false
      */
    public boolean existElementWithId(Integer id) {
@@ -123,7 +145,7 @@ public List<StudyGroup> getSortedCollection() {
         studyGroups.clear();
     }
     /**
-     * add a new item to the collection if the distance of the specified route is greater than the minimum distance of studyGroups in the collection
+     * add a new item to the collection if the coordinates of the specified studyGroup is greater than the minimum coordinates of studyGroups in the collection
      * @param studyGroup a new studyGroup that will be added if the condition is met correctly
      * @return true if the element is added, return false otherwise
      */
@@ -134,19 +156,20 @@ public List<StudyGroup> getSortedCollection() {
         return false;
     }
     /**
-     * remove all studyGroups in collection which distance greater than distance of given studyGroup
+     * remove all studyGroups in collection which coordinate greater than coordinate of given studyGroup
      */
     public void removeGreater(StudyGroup studyGroup) {
         studyGroups.removeIf(setStudyGroup -> setStudyGroup.getStudentsCount() > studyGroup.getStudentsCount());
     }
     /**
-     * remove all studyGroups in collection which distance lower than distance of given studyGroup
+     * remove all studyGroups in collection which coordinates lower than coordinates of given studyGroup
      */
     public void removeLower(StudyGroup studyGroup) {
         studyGroups.removeIf(setStudyGroup -> setStudyGroup.getStudentsCount() < studyGroup.getStudentsCount());
     }
 
     /**
+     * return studyGroup from collection with minimum coordinates
      * @return studyGroup from collection with minimum coordinates
      */
     public StudyGroup minByCoordinates() {

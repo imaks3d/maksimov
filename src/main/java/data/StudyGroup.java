@@ -62,33 +62,46 @@ private static final AtomicInteger nextId = new AtomicInteger(0);
 //   public static void setNextId(Integer id) {
 //      setId = id;
 //   }
-public void setId(int id) {
+
+    /**
+     * set object id
+     */
+    public void setId(int id) {
     this.id = id;
 }
 
 
     /**
+     * return id of StudyGroup
      * @return id of StudyGroup
      */
     public Integer getId() {
         return id;
     }
     /**
+     * return name of StudyGroup
      * @return name of StudyGroup
      */
     public String getName() {
         return name;
     }
+
+    /**
+     *Return the number of students in the group
+     * @return the number of students in the group
+     */
     public int getStudentsCount() {
         return studentsCount;
     }
     /**
+     * return coordinates of StudyGroup
      * @return coordinates of StudyGroup
      */
     public Coordinates getCoordinates() {
         return coordinates;
     }
     /**
+     * return creation date of StudyGroup
      * @return creation date of StudyGroup
      */
     public LocalDateTime getCreationDateTime() {
@@ -109,6 +122,7 @@ public void setId(int id) {
         formOfEducation = studyGroup.formOfEducation;
     }
     /**
+     * return studyGroup represented by beautiful string
      * @return studyGroup represented by beautiful string
      */
     @Override

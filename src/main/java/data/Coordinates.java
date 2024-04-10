@@ -17,18 +17,21 @@ public class Coordinates {
         this.y = y;
     }
     /**
+     * return x coordinate
      * @return x coordinate
      */
     public int getX() {
         return x;
     }
     /**
+     * return y coordinate
      * @return y coordinate
      */
     public Double getY() {
         return y;
     }
     /**
+     * return coordinates represented by beautiful string
      * @return coordinates represented by beautiful string
      */
     @Override
