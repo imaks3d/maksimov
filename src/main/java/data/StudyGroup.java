@@ -1,133 +1,161 @@
 package data;
-import com.google.gson.annotations.Expose;
+
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Main class that stored in collection
  */
-
-public class StudyGroup {
-//private static Integer setId = 0;
-private static final AtomicInteger nextId = new AtomicInteger(0);
-//    @NotNull
-//    @Min(1)
-//    @Expose(serialize = false)
-//    private final Integer id;
+public class StudyGroup implements Comparable<StudyGroup> {
+    private static final AtomicInteger nextId = new AtomicInteger(0);
     @NotNull
     @Min(1)
-    @Expose(serialize = false)
-    private Integer id;//Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
+    private Integer id;
     @NotNull
-    @Expose
-    private String name; //Поле не может быть null, Строка не может быть пустой
+    private String name;
     @NotNull
-    @Expose
-    private Coordinates coordinates; //Поле не может быть null
+    private Coordinates coordinates;
     @NotNull
-    @Expose
     private Location location;
     @NotNull
-    @Expose
-    private final LocalDateTime creationDateTime; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
+    private Date creationDateTime;
     @NotNull
-    @Expose
-    private int studentsCount; //Значение поля должно быть больше 0
+    private int studentsCount;
     @NotNull
-    @Expose
-    private int shouldBeExpelled; //Значение поля должно быть больше 0
+    private int shouldBeExpelled;
     @NotNull
-    @Expose
-    private long transferredStudents; //Значение поля должно быть больше 0
+    private long transferredStudents;
     @NotNull
-    @Expose
-    private FormOfEducation formOfEducation; //Поле не может быть null
+    private FormOfEducation formOfEducation;
     @NotNull
-    @Expose
     private Person groupAdmin;
+    private String user_name;
+
     public StudyGroup(String name, Coordinates coordinates, int studentsCount, int shouldBeExpelled, long transferredStudents, FormOfEducation formOfEducation, Person person) {
-//        Id = ++setId;
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be null or empty");
+        }
+        if (coordinates == null) {
+            throw new IllegalArgumentException("Coordinates cannot be null");
+        }
+        if (studentsCount <= 0) {
+            throw new IllegalArgumentException("Students count must be greater than 0");
+        }
+        if (shouldBeExpelled <= 0) {
+            throw new IllegalArgumentException("Should be expelled must be greater than 0");
+        }
+        if (transferredStudents <= 0) {
+            throw new IllegalArgumentException("Transferred students must be greater than 0");
+        }
+        if (formOfEducation == null) {
+            throw new IllegalArgumentException("Form of education cannot be null");
+        }
+        if (person == null) {
+            throw new IllegalArgumentException("Group admin cannot be null");
+        }
         this.id = nextId.incrementAndGet();
-        creationDateTime = LocalDateTime.now();
+        this.creationDateTime = new Date();
+        this.name = name;
+        this.coordinates = coordinates;
         this.studentsCount = studentsCount;
         this.shouldBeExpelled = shouldBeExpelled;
         this.transferredStudents = transferredStudents;
-        this.name = name;
-        this.coordinates = coordinates;
-        this.groupAdmin = person;
         this.formOfEducation = formOfEducation;
+        this.groupAdmin = person;
     }
-//   public static void setNextId(Integer id) {
-//      setId = id;
-//   }
 
-    /**
-     * set object id
-     */
+    public StudyGroup() {}
+
     public void setId(int id) {
-    this.id = id;
-}
+        this.id = id;
+    }
 
-
-    /**
-     * return id of StudyGroup
-     * @return id of StudyGroup
-     */
     public Integer getId() {
         return id;
     }
-    /**
-     * return name of StudyGroup
-     * @return name of StudyGroup
-     */
+
     public String getName() {
         return name;
     }
 
-    /**
-     *Return the number of students in the group
-     * @return the number of students in the group
-     */
     public int getStudentsCount() {
         return studentsCount;
     }
-    /**
-     * return coordinates of StudyGroup
-     * @return coordinates of StudyGroup
-     */
+
     public Coordinates getCoordinates() {
         return coordinates;
     }
-    /**
-     * return creation date of StudyGroup
-     * @return creation date of StudyGroup
-     */
-    public LocalDateTime getCreationDateTime() {
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public Date getCreationDateTime() {
         return creationDateTime;
     }
-    /**
-     * replace current studyGroup by new information
-     * @param studyGroup studyGroup with new information
-     */
-    public void update(StudyGroup studyGroup) {
-        name = studyGroup.name;
-        coordinates = studyGroup.coordinates;
-        location = studyGroup.location;
-        studentsCount = studyGroup.studentsCount;
-        shouldBeExpelled = studyGroup.shouldBeExpelled;
-        transferredStudents = studyGroup.shouldBeExpelled;
-        groupAdmin = studyGroup.groupAdmin;
-        formOfEducation = studyGroup.formOfEducation;
+
+    public void setCreationDateTime(Date creationDateTime) {
+        this.creationDateTime = creationDateTime;
     }
-    /**
-     * return studyGroup represented by beautiful string
-     * @return studyGroup represented by beautiful string
-     */
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
+    public Long getTransferredStudents() {
+        return transferredStudents;
+    }
+
+    public int getShouldBeExpelled() {
+        return shouldBeExpelled;
+    }
+
+    public FormOfEducation getFormOfEducation() {
+        return formOfEducation;
+    }
+
+    public void setGroupAdmin(Person groupAdmin) {
+        this.groupAdmin = groupAdmin;
+    }
+
+    public Person getGroupAdmin() {
+        return groupAdmin;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setStudentsCount(int studentsCount) {
+        this.studentsCount = studentsCount;
+    }
+
+    public void setTransferredStudents(long transferredStudents) {
+        this.transferredStudents = transferredStudents;
+    }
+
+    public void setFormOfEducation(FormOfEducation formOfEducation) {
+        this.formOfEducation = formOfEducation;
+    }
+
+    public void setStudentsExpelled(int shouldBeExpelled) {
+        this.shouldBeExpelled = shouldBeExpelled;
+    }
+
     @Override
     public String toString() {
         return "Id = " + id + ", name = " + name + ", coordinates = " + coordinates + ", creation date = " + getCreationDateTime().toString() + ", count of students = " + studentsCount + ", should be expelled = " + shouldBeExpelled + ", transferred students = " + transferredStudents + ", form of education = " + formOfEducation.getDescription() +  ", GroupAdmin = " + groupAdmin;
     }
-}
 
+    @Override
+    public int compareTo(StudyGroup other) {
+        return Integer.compare(this.studentsCount, other.studentsCount);
+    }
+}

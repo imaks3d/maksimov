@@ -1,40 +1,30 @@
-import сommands.CollectionManager;
-import сommands.CommandManager;
-import сommands.Console;
-import сommands.FileManager;
-import exceptions.FileReadPermissionException;
-import exceptions.StudyGroupValidateException;
-import utility.StudyGroupReader;
+import dataBase.DataBase;
+import dataBase.DataBaseManager;
+import commands.CommandManager;
+import commands.UserStatusManager;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
+import java.util.Properties;
 import java.util.Scanner;
-/**
- * Main class that start interactive mode
- *
- */
-public final class Client {
-    private Client() {
-        throw new UnsupportedOperationException("This is an utility class and can not be instantiated");
-    }
 
+public class Client {
     public static void main(String[] args) {
         try {
-            String fileName = args[0];
-            File file = new File(fileName);
-            Scanner scanner = new Scanner(System.in);
-
-            StudyGroupReader studyGroupReader = new StudyGroupReader(scanner);
-            FileManager fileManager = new FileManager(file);
-            CollectionManager collectionManager = new CollectionManager(fileManager.readElementsFromFile());
-            CommandManager commandManager = new CommandManager(fileManager, studyGroupReader, collectionManager);
-
-            Console console = new Console(scanner, commandManager);
-            console.startInteractiveMode();
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("Имя файла не указано");
-        } catch (FileNotFoundException | FileReadPermissionException | StudyGroupValidateException e) {
-            System.out.println(e.getMessage());
+            Class.forName("org.postgresql.Driver");
+            String url = "jdbc:postgresql://localhost:5432/studs";
+            Properties info = new Properties();
+            info.load(new FileInputStream(args[0]));
+            DataBaseManager dataBaseManager = new DataBaseManager(url, info);
+            dataBaseManager.initDataBase(); // Инициализация базы данных до загрузки данных
+            DataBase db = new DataBase(dataBaseManager);
+            UserStatusManager userStatusManager = new UserStatusManager(false, "");
+            CommandManager commandManager = new CommandManager(userStatusManager, dataBaseManager, db, new Scanner(System.in));
+            commandManager.Run();
+        } catch (Exception e) {
+            System.out.println("Abnormal termination:");
+            e.printStackTrace(); // Вывод полного стека ошибок для отладки
+        } finally {
+            System.out.println("The application is closed.");
         }
     }
 }

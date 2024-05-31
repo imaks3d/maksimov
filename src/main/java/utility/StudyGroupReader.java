@@ -1,14 +1,9 @@
-
 package utility;
 
 import data.*;
-import exceptions.ReadElementFromScriptException;
 
-import java.util.Arrays;
 import java.util.Scanner;
-/**
- * Class that read new StudyGroup from console or from script
- */
+
 public class StudyGroupReader {
     private Scanner scanner;
 
@@ -16,225 +11,174 @@ public class StudyGroupReader {
         this.scanner = scanner;
     }
 
-    /**
-     * set Scanner object for data input
-     * @param scanner new scanner
-     */
     public void setScanner(Scanner scanner) {
         this.scanner = scanner;
     }
 
-    /**
-     * Return the value of the scanner variable that was previously set
-     * @return return current scanner
-     */
     public Scanner getScanner() {
         return scanner;
     }
 
-    /**
-     * create a new StudyGroup object using console input
-     * @return new StudyGroup read from console
-     */
     public StudyGroup readStudyGroupFromConsole() {
         return new StudyGroup(readName(), readCoordinates(), readCountStudents(), readShouldBeExpelled(), readTransferredStudents(), readFormOfEducation(), readPerson());
     }
 
-    /**
-     * return new StudyGroup read from script
-     * @return new StudyGroup read from script
-     */
-
     public StudyGroup readStudyGroupFromScript() {
         return new StudyGroup(readName(), readCoordinates(), readCountStudents(), readShouldBeExpelled(), readTransferredStudents(), readFormOfEducation(), readPerson());
-
     }
-            /**
-             * return read name of StudyGroup from console
-             * @return read name of StudyGroup from console
-             */
+
     public String readName() {
-        System.out.print("Введите название учебной группы: ");
+        System.out.print("Enter name of StudyGroup: ");
         String name = scanner.nextLine();
-        while (name == null || name.isEmpty()) {
-            System.out.print("Название учебной группы не может быть пустым, повторите попытку: ");
+        while (name == null || name.trim().isEmpty()) {
+            System.out.print("The name of the study group cannot be empty, please try again: ");
             name = scanner.nextLine();
         }
         return name;
     }
-    /**
-     * return read Count Student of StudyGroup from console
-     * @return read Count Student of StudyGroup from console
-     */
+
     public int readCountStudents() {
         final int countMinValue = 1;
         int countStudents;
-        System.out.print("Введите количество учащихся: ");
+        System.out.print("Enter the number of students: ");
         countStudents = readInt();
         while (countStudents < countMinValue) {
-            System.out.print("Количество учащихся должно быть больше нуля: ");
+            System.out.print("The number of students must be greater than zero: ");
             countStudents = readInt();
         }
         return countStudents;
     }
-    /**
-     * return read ShouldBeExpelled of StudyGroup from console
-     * @return read ShouldBeExpelled of StudyGroup from console
-     */
+
     public int readShouldBeExpelled() {
         final int expelledMinValue = 1;
         int shouldBeExpelled;
-        System.out.print("Введите количество учащихся, которые будут исключены: ");
+        System.out.print("Enter the number of students who will be expelled: ");
         shouldBeExpelled = readInt();
         while (shouldBeExpelled < expelledMinValue) {
-            System.out.print("Количество учащихся, которые будут исключены, должно быть больше нуля: ");
+            System.out.print("The number of students who will be expelled must be greater than zero: ");
             shouldBeExpelled = readInt();
         }
         return shouldBeExpelled;
     }
-    /**
-     * return read TransferredStudents of StudyGroup from console
-     * @return read TransferredStudents of StudyGroup from console
-     */
+
     public long readTransferredStudents() {
-        final int transMinValue = 0;
+        final int transMinValue = 1;
         long transferredStudents;
-        System.out.print("Введите количество переведенных учащихся: ");
+        System.out.print("Enter the number of transferred students: ");
         transferredStudents = readLong();
-        while (transferredStudents <= transMinValue) {
-            System.out.print("Количество переведенных учащихся должно быть больше нуля: ");
+        while (transferredStudents < transMinValue) {
+            System.out.print("The number of transferred students must be greater than zero: ");
             transferredStudents = readLong();
         }
         return transferredStudents;
     }
-    /**
-     * return read Coordinates of StudyGroup from console
-     * @return read Coordinates of StudyGroup from console
-     */
+
     public Coordinates readCoordinates() {
-        final int xMinValue = -300;
+        final int xMinValue = -301;
         int x;
         Double y;
-        System.out.print("Введите координату X: ");
+        System.out.print("Enter the X coordinate: ");
         x = readInt();
-        while (x < xMinValue) {
-            System.out.print("Координата X должна быть больше -301, повторите попытку: ");
+        while (x <= xMinValue) {
+            System.out.print("The X coordinate must be greater than -301, try again: ");
             x = readInt();
         }
-        System.out.print("Введите координату Y: ");
+        System.out.print("Enter the Y coordinate: ");
         y = readDouble();
         return new Coordinates(x, y);
     }
-    /**
-     *return read FormOfEducation of StudyGroup from console
-     * @return read FormOfEducation of StudyGroup from console
-     */
+
     public FormOfEducation readFormOfEducation() {
-        System.out.println("Выберите форму обучения:");
+        System.out.println("Choose the form of education:");
         int index = 1;
         for (FormOfEducation value : FormOfEducation.values()) {
-            System.out.println(index + ". " + value.getDescription());
+            System.out.println(index + ". " + value);
             index++;
         }
 
         int choice;
         do {
-            System.out.print("Введите номер выбранной формы обучения: ");
+            System.out.print("Enter the number of the selected form of study: ");
             while (!scanner.hasNextInt()) {
-                System.out.println("Введите число!");
-                System.out.print("Введите номер выбранной формы обучения: ");
+                System.out.println("Enter a number!");
+                System.out.print("Enter the number of the selected form of study: ");
                 scanner.next();
             }
             choice = scanner.nextInt();
-            scanner.nextLine(); // Очистка буфера
+            scanner.nextLine(); // Clear the buffer
         } while (choice < 1 || choice > FormOfEducation.values().length);
 
         return FormOfEducation.values()[choice - 1];
     }
 
-    /**
-     * return read Person of StudyGroup from console
-     * @return read Person of StudyGroup from console
-     */
-
     public Person readPerson() {
         String name;
-        Long height;
-        final int minHeight = 0;
         double weight;
-        final int minWeight = 0;
+        final int minWeight = 1;
         String passportID;
-        Location location;
-        System.out.print("Введите имя учащегося: ");
+
+        System.out.print("Enter the student's name: ");
         name = readString();
         while (name == null || name.isEmpty()) {
-            System.out.print("Вы не ввели имя учащегося, повторите попытку: ");
+            System.out.print("You have not entered the student's name, please try again: ");
             name = readString();
         }
-        System.out.print("Введите рост: ");
-        height = readLongOrNull();
-        while (height != null && height.longValue() <= minHeight) {
-            System.out.print("Рост должен быть больше нуля: ");
-            height = readLong();}
-        System.out.print("Введите вес: ");
+
+        System.out.print("Enter the weight: ");
         weight = readDouble();
-        while (weight <= minWeight) {
-            System.out.print("Вес должен быть больше нуля: ");
+        while (weight < minWeight) {
+            System.out.print("The weight must be greater than zero: ");
             weight = readDouble();
         }
-        System.out.print("Введите ID паспорта: ");
-        passportID = readStringOrNull(); // Метод для чтения String с возможностью ввода null
-        while (passportID != null && (passportID.length() < 5)) {
-            System.out.print("ID паспорта должен содержать не менее 5 символов. Пожалуйста, повторите ввод: ");
-            passportID = readStringOrNull();
+
+        System.out.print("Enter passport ID: ");
+        passportID = readString();
+        while (passportID.length() <= 6) {
+            System.out.print("Passport ID must contain more than 6 characters. Please try again: ");
+            passportID = readString();
         }
-        System.out.println("Введите координаты локации:");
-        System.out.print("Введите координату X: ");
-        Long x = readLong();
-        System.out.print("Введите координату Y: ");
+
+        System.out.println("Enter the location coordinates:");
+        System.out.print("Enter coordinate X: ");
+        Double x = readDouble();
+        System.out.print("Enter coordinate Y: ");
         Double y = readDouble();
-        System.out.print("Введите координату Z: ");
-        double z = readDouble();
-        System.out.print("Введите название локации: ");
-        String locationName = readStringOrNull(); // Метод для чтения String с возможностью ввода null
-        while (locationName == null) {
-            System.out.print("Название локации не может быть равно null, пожалуйста, повторите ввод: ");
-            locationName = readStringOrNull();
+        System.out.print("Enter coordinate Z: ");
+        Double z = readDouble();
+        System.out.print("Enter location name: ");
+        String locationName = readString();
+        while (locationName != null && locationName.length() >= 836) {
+            System.out.print("Location name must be less than 836 characters. Please try again: ");
+            locationName = readString();
         }
-        location = new Location(x, y, z, locationName);
-        return new Person(name, height, weight, passportID, location);
+
+        Location location = new Location();
+        location.setX(x);
+        location.setY(y);
+        location.setZ(z);
+        location.setName(locationName);
+
+        Person person = new Person();
+        person.setName(name);
+        person.setWeight(weight);
+        person.setPassportID(passportID);
+        person.setLocation(location);
+
+        return person;
     }
 
-    /**
-     *
-     * read a line from the console or other input source using the Scanner object
-     */
     private String readString() {
         String value;
         while (true) {
-            try {
-                value = scanner.nextLine();
+            value = scanner.nextLine();
+            if (value != null && !value.trim().isEmpty()) {
                 break;
-            } catch (Exception e) {
-                System.out.print("Ошибка при вводе, повторите попытку: ");
             }
+            System.out.print("Input cannot be empty, please try again: ");
         }
         return value;
     }
 
-    /**
-     * provide the ability to enter null if an empty string is entered
-     * @return null
-     */
-    private String readStringOrNull() {
-        String input = scanner.nextLine().trim();
-        return input.isEmpty() ? null : input;
-    }
-
-    /**
-     * read an integer from the console
-     * @return  the value of an integer
-     */
     private int readInt() {
         int value;
         while (true) {
@@ -242,48 +186,25 @@ public class StudyGroupReader {
                 value = Integer.parseInt(scanner.nextLine());
                 break;
             } catch (NumberFormatException e) {
-                System.out.print("Ошибка при вводе, повторите попытку: ");
+                System.out.print("Invalid input. Please enter an integer: ");
             }
         }
         return value;
     }
 
-    /**
-     * count long integers
-     * @return the value of a number of type long
-     */
     private long readLong() {
-        Long value;
+        long value;
         while (true) {
             try {
                 value = Long.parseLong(scanner.nextLine());
                 break;
             } catch (NumberFormatException e) {
-                System.out.print("Ошибка при вводе, повторите попытку: ");
+                System.out.print("Invalid input. Please enter a long integer: ");
             }
         }
         return value;
     }
 
-    /**
-     * This method allows you to enter null if the entered string is empty
-     * @return null
-     */
-    private Long readLongOrNull() {
-        Long value;
-        try {
-            String input = scanner.nextLine().trim();
-            return input.isEmpty() ? null : Long.parseLong(input);
-        } catch (NumberFormatException e) {
-            System.out.print("Ошибка при вводе, повторите попытку: ");
-            return null;
-        }
-    }
-
-    /**
-     * count a floating point number
-     * @return the value of a floating point number
-     */
     private double readDouble() {
         double value;
         while (true) {
@@ -291,7 +212,7 @@ public class StudyGroupReader {
                 value = Double.parseDouble(scanner.nextLine());
                 break;
             } catch (NumberFormatException e) {
-                System.out.print("Ошибка при вводе, повторите попытку: ");
+                System.out.print("Invalid input. Please enter a double: ");
             }
         }
         return value;
